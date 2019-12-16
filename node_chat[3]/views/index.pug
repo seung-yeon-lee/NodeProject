@@ -1,0 +1,45 @@
+doctype
+html
+  head
+    meta(charset='utf-8')
+    title GIF 채팅방
+  body
+    div F12를 눌러 console 탭과 network 탭을 확인하세요.
+    script(src='/socket.io/socket.io.js')  
+    script.
+     var socket = io.connect('http://localhost:8005',{
+         path: '/socket.io',
+     });
+     socket.on('news',(data)=>{
+         console.log(data);
+         socket.emit('reply', 'Hello NodeJS')
+     });
+    
+
+//- socket.io/socket.io.js 는 socket.IO에서 클라이언트로 제공하는 스크립트 이 스크립트를 통해 서버와 유사한 API로 웹 소켓 통신이 가능
+//- 스크립트가 제공하는 io 객체에 서버 주소를 적어 연걸, WS 프로토콜이 아니라 http 프로토콜을 사용하는 것이 WS 모듈과 다름
+//- 옵션으로 path를 주었는데 이 부분이 서버의 path 옵션과 일치해야 통신이 가능
+//- 서버에서 보내는 news 이벤트를 받기위해 news 이벤트 리스너를 붙여둠, news 이벤트가 발생하면 emit 메서드로 다시 서버에게 답장을 함(서버의 reply이벤트리스너로 답장)
+
+
+   //-----------------------------------------------------// 
+//- doctype
+//- html
+//-   head
+//-     meta(charset='utf-8')
+//-     title GIF 채팅방
+//-   body
+//-     div F12를 눌러 console 탭과 network 탭을 확인하세요.
+//-   script.
+//-     var webSocket = new WebSocket("ws://localhost:8005");
+//-     webSocket.onopen = function () {
+//-       console.log('서버와 웹소켓 연결 성공!');
+//-     }
+//-     webSocket.onmessage = function (event) {
+//-       console.log(event.data);
+//-       webSocket.send('클라이언트에서 서버로 답장을 보냅니다');
+//-     }
+//-     // 밑에부분은 ws 모듈로 한 코드
+//-     //webSocket 생성자에 연결할 주소를 넣고 webSocket 객체를 생성 서버주소의 프로토콜이 ws 클라이언트에서도 이벤트 기반으로 동작
+//-     // 서버와 연결이 맺어진 경우 onopen 리스너 호출 , message가 오는 경우 onmessage 리스너가 호출
+     
