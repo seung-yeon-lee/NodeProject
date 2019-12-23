@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  .timeline
+    h2 경매 진행 목록
+    table#good-list
+      tr
+        th 상품명
+        th 이미지
+        th 시작 가격
+        th 종료 시간
+        th 입장
+      for good in goods
+        tr
+          td= good.name
+          td: img(src='/img/' + good.img)
+          td= good.price
+          td.time(data-start=good.createdAt) 00:00:00
+          td: a.enter.btn(href='/good/' + good.id) 입장
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/event-source-polyfill/0.0.9/eventsource.min.js')
+  script.
+    var es = new EventSource('/sse');
+    es.onmessage = function (e) {
+     document.querySelectorAll('.time').forEach(function(td) {
+        var end = new Date(td.dataset.start);
+        var server = new Date(parseInt(e.data, 10));
+        end.setDate(end.getDate() + 1);
+        if (server >= end) {
+          return td.textContent = '00:00:00';
+        } else {
+          var t = end - server;
+          var seconds = ('0' + Math.floor((t / 1000) % 60)).slice(-2);
+          var minutes = ('0' + Math.floor((t / 1000 / 60) % 60)).slice(-2);
+          var hours = ('0' + Math.floor((t / (1000 * 60 * 60)) % 24)).slice(-2);
+          return td.textContent = hours + ':' + minutes + ':' + seconds ;
+        }
+      });
+    };
+
+          //서버센트 이벤트는 IE나 엣지 브라우저에서는 사용 할 수 없음 EventSource를 직접 구현하면 사용가능 클라이언트 코드에 eventSource polyfill을 넣어줌
+          // 첫번쨰 스크립트가 바로 polyfill 이제 사용시 서버센트 이벤트를 다 사용 할 수 있음
+          // 두번째 스크립트는 new로 서버와 연결하고 es.onmessage or es.addEventListener('message')로 서버로부터 데이터를 받을 수 있음
+          // 서버로 받은 데이터는  e.data 에 들어잏ㅆ음
