@@ -1,16 +1,16 @@
-// let global = 'torres';
+// var global = 'torres';
 
 // function first(){
-//     let outer = 'rooney'; //자신 수명이 끝나는 first 함수 호출 후에도 살아있음
+//     var outer = 'rooney'; //자신 수명이 끝나는 first 함수 호출 후에도 살아있음
 //     function second(){    
-//         let inner = 'messi';
+//         var inner = 'messi';
 //         console.log(global);
 //         console.log(outer);
 //         console.log(inner);
 //     }
 //     return second; //함수내에 정의한 second함수를 반환 하여 total 변수에 저장
 // }
-// const total = first() //반환 받은것이 사실상 클로저
+// var total = first() //반환 받은것이 사실상 클로저
 // total()
 
 // // first 함수 내에 정의한 지역변수인 inner가 자신이 수명이 끝나는 first 호출후에
@@ -27,8 +27,8 @@
 // //▶자바스크립트는 일급 함수를 지원하므로 함수를 변수에 저장하고,
 // // 파라미터로 함수를 넘기고, 함수를 반환하는 것이 가능
 
-// const counter = (function(){
-//     let privateCount = 0;
+// var counter = (function(){
+//     var privateCount = 0;
 //     function changeCount(v){
 //         privateCount += v
 //     }
@@ -49,3 +49,7 @@
 // console.log('increment:'+ counter.val());
 // counter.dec();
 // console.log('decrment:'+ counter.val());
+
+
+
+
